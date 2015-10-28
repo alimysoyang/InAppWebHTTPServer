@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187863771BE067100021B5C3 /* AYHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 187863761BE067100021B5C3 /* AYHViewController.m */; };
+		1878637A1BE068E50021B5C3 /* AYHUploadValueModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187863791BE068E50021B5C3 /* AYHUploadValueModel.m */; };
 		7C0DCE4317BDFAD700E1F52E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0DCE4217BDFAD700E1F52E /* UIKit.framework */; };
 		7C0DCE4517BDFAD700E1F52E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0DCE4417BDFAD700E1F52E /* Foundation.framework */; };
 		7C0DCE4717BDFAD700E1F52E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C0DCE4617BDFAD700E1F52E /* CoreGraphics.framework */; };
@@ -48,6 +50,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		187863751BE067100021B5C3 /* AYHViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHViewController.h; sourceTree = "<group>"; };
+		187863761BE067100021B5C3 /* AYHViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHViewController.m; sourceTree = "<group>"; };
+		187863781BE068E50021B5C3 /* AYHUploadValueModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHUploadValueModel.h; sourceTree = "<group>"; };
+		187863791BE068E50021B5C3 /* AYHUploadValueModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHUploadValueModel.m; sourceTree = "<group>"; };
 		7C0DCE3F17BDFAD700E1F52E /* InAppWebHTTPServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InAppWebHTTPServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C0DCE4217BDFAD700E1F52E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7C0DCE4417BDFAD700E1F52E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -136,6 +142,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1878637B1BE06DB90021B5C3 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				7C0DCEB717BE04E000E1F52E /* AYHTTPConnection.h */,
+				7C0DCEB817BE04E000E1F52E /* AYHTTPConnection.m */,
+				187863781BE068E50021B5C3 /* AYHUploadValueModel.h */,
+				187863791BE068E50021B5C3 /* AYHUploadValueModel.m */,
+			);
+			name = Upload;
+			sourceTree = "<group>";
+		};
 		7C0DCE3617BDFAD700E1F52E = {
 			isa = PBXGroup;
 			children = (
@@ -168,12 +185,13 @@
 		7C0DCE4817BDFAD700E1F52E /* InAppWebHTTPServer */ = {
 			isa = PBXGroup;
 			children = (
+				1878637B1BE06DB90021B5C3 /* Upload */,
 				7C0DCEB417BE041500E1F52E /* Resources */,
 				7C0DCE5F17BE01D100E1F52E /* CocoaHTTPServer */,
 				7C0DCE5117BDFAD700E1F52E /* AYHAppDelegate.h */,
 				7C0DCE5217BDFAD700E1F52E /* AYHAppDelegate.m */,
-				7C0DCEB717BE04E000E1F52E /* AYHTTPConnection.h */,
-				7C0DCEB817BE04E000E1F52E /* AYHTTPConnection.m */,
+				187863751BE067100021B5C3 /* AYHViewController.h */,
+				187863761BE067100021B5C3 /* AYHViewController.m */,
 				7C0DCE4917BDFAD700E1F52E /* Supporting Files */,
 			);
 			path = InAppWebHTTPServer;
@@ -319,7 +337,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = AYH;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = AlimysoYang;
 			};
 			buildConfigurationList = 7C0DCE3A17BDFAD700E1F52E /* Build configuration list for PBXProject "InAppWebHTTPServer" */;
@@ -378,6 +396,7 @@
 				7C0DCEA917BE01D200E1F52E /* HTTPServer.m in Sources */,
 				7C0DCEAA17BE01D200E1F52E /* MultipartFormDataParser.m in Sources */,
 				7C0DCEAB17BE01D200E1F52E /* MultipartMessageHeader.m in Sources */,
+				1878637A1BE068E50021B5C3 /* AYHUploadValueModel.m in Sources */,
 				7C0DCEAC17BE01D200E1F52E /* MultipartMessageHeaderField.m in Sources */,
 				7C0DCEAD17BE01D200E1F52E /* HTTPAsyncFileResponse.m in Sources */,
 				7C0DCEAE17BE01D200E1F52E /* HTTPDataResponse.m in Sources */,
@@ -387,6 +406,7 @@
 				7C0DCEB217BE01D200E1F52E /* HTTPRedirectResponse.m in Sources */,
 				7C0DCEB317BE01D200E1F52E /* WebSocket.m in Sources */,
 				7C0DCEB917BE04E000E1F52E /* AYHTTPConnection.m in Sources */,
+				187863771BE067100021B5C3 /* AYHViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +438,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -449,6 +471,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -466,6 +489,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "InAppWebHTTPServer/InAppWebHTTPServer-Prefix.pch";
 				INFOPLIST_FILE = "InAppWebHTTPServer/InAppWebHTTPServer-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alimysoyang.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -477,6 +501,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "InAppWebHTTPServer/InAppWebHTTPServer-Prefix.pch";
 				INFOPLIST_FILE = "InAppWebHTTPServer/InAppWebHTTPServer-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.alimysoyang.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

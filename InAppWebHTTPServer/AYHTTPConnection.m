@@ -7,10 +7,24 @@
 //
 
 #import "AYHTTPConnection.h"
+#import "MultipartFormDataParser.h"
 #import "HTTPMessage.h"
 #import "MultipartMessageHeader.h"
 #import "MultipartMessageHeaderField.h"
 #import "HTTPDynamicFileResponse.h"
+
+#import "AYHUploadValueModel.h"
+
+@interface AYHTTPConnection()<MultipartFormDataParserDelegate>
+
+@property (assign, nonatomic) BOOL isUploading;                         //Is not being performed Upload
+@property (assign, nonatomic) UInt64 uploadFileSize;                     //The total size of the uploaded file
+@property (strong, nonatomic) MultipartFormDataParser *parser;    //
+@property (strong, nonatomic) NSFileHandle *storeFile;                  //Storing uploaded files
+
+@property (strong, nonatomic) AYHUploadValueModel *uploadValueModel;
+
+@end
 
 @implementation AYHTTPConnection
 
@@ -18,9 +32,9 @@
 //Connection is disconnected
 - (void) die
 {
-    if (isUploading)
+    if (self.isUploading)
     {
-        isUploading = NO;
+        self.isUploading = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADISCONNECTED object:nil];
     }
     [super die];
@@ -88,19 +102,20 @@
     return [super httpResponseForMethod:method URI:path];
 }
 
+#pragma mark private methods
 - (void) prepareForBodyWithSize:(UInt64)contentLength
 {
     //Get the total length of the uploaded file
-    uploadFileSize = contentLength;
+    self.uploadFileSize = contentLength;
     //Prepare parsing
-    parser = [[MultipartFormDataParser alloc] initWithBoundary:[request headerField:@"boundary"] formEncoding:NSUTF8StringEncoding];
-    parser.delegate = self;
+    self.parser = [[MultipartFormDataParser alloc] initWithBoundary:[request headerField:@"boundary"] formEncoding:NSUTF8StringEncoding];
+    self.parser.delegate = self;
 }
 
 - (void) processBodyData:(NSData *)postDataChunk
 {
     //Get the current data stream
-    [parser appendData:postDataChunk];
+    [self.parser appendData:postDataChunk];
 }
 
 #pragma mark File Transfer Process(Start->Content->End)
@@ -119,29 +134,28 @@
     {
         return;
     }
-    isUploading = YES;
-    storeFile = [NSFileHandle fileHandleForWritingAtPath:uploadFilePath];
-    NSDictionary *value = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithLongLong:uploadFileSize], @"totalfilesize", nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADSTART object:nil userInfo:value];
+    self.isUploading = YES;
+    self.storeFile = [NSFileHandle fileHandleForWritingAtPath:uploadFilePath];
+    self.uploadValueModel.totalFileSize = self.uploadFileSize;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADSTART object:self.uploadValueModel];
 }
 
 - (void) processContent:(NSData *)data WithHeader:(MultipartMessageHeader *)header
 {
-    if (storeFile)
+    if (self.storeFile)
     {
-        [storeFile writeData:data];
-        CGFloat progress = (CGFloat)(data.length) / (CGFloat)uploadFileSize;
-        NSDictionary *value = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:progress], @"progressvalue",[NSNumber numberWithInt:data.length], @"cureentvaluelength", nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADING object:nil userInfo:value];
+        [self.storeFile writeData:data];
+        self.uploadValueModel.dataLength = data.length;
+        [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADING object:self.uploadValueModel];
     }
 }
 
 - (void) processEndOfPartWithHeader:(MultipartMessageHeader *)header
 {
-    isUploading = NO;
-    [storeFile closeFile];
-    storeFile = nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADEND object:nil];
+    self.isUploading = NO;
+    [self.storeFile closeFile];
+    self.storeFile = nil;
+     [[NSNotificationCenter defaultCenter] postNotificationName:UPLOADEND object:nil];
 }
 
 - (void) processPreambleData:(NSData *)data
@@ -152,5 +166,15 @@
 - (void) processEpilogueData:(NSData *)data
 {
     
+}
+
+#pragma mark getter & setter
+- (AYHUploadValueModel *)uploadValueModel
+{
+    if (!_uploadValueModel)
+    {
+        _uploadValueModel = [[AYHUploadValueModel alloc] init];
+    }
+    return _uploadValueModel;
 }
 @end
